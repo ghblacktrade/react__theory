@@ -1,25 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    let likes = 5
+
+    let increment = () => {
+        likes += 1
+
+    }
+
+    let decrement = () => {
+        likes -= 1
+    }
+
+
+    return (
+        <div>
+            <h1>
+                {likes}
+            </h1>
+            <button onClick={increment}>increment</button>
+            <button onClick={decrement}>decrement</button>
+        </div>
+    );
 }
 
 export default App;
