@@ -1,25 +1,13 @@
 import './App.css';
+import {useState} from "react";
+import Counter from "./components/Counter";
 
 function App() {
-    let likes = 5
-
-    let increment = () => {
-        likes += 1
-
-    }
-
-    let decrement = () => {
-        likes -= 1
-    }
-
+    const [value, setValue]= useState(1)
 
     return (
         <div>
-            <h1>
-                {likes}
-            </h1>
-            <button onClick={increment}>increment</button>
-            <button onClick={decrement}>decrement</button>
+<Counter />
         </div>
     );
 }
