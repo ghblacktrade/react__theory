@@ -4,6 +4,7 @@ import Counter from "./components/Counter";
 import ClassCounter from "./components/ClassCounter";
 import './Styles/App.css'
 import PostList from "./components/PostList";
+import MyButton from "./UI/button/MyButton";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -22,8 +23,11 @@ function App() {
         <div>
             <Counter/>
             <ClassCounter/>
-            <PostList posts={posts} title='post list one'/>
-            <PostList posts={posts2} title='post list two'/>
+            <input type='text' placeholder='name post' />
+            <input type='text' placeholder='name post' />
+            <MyButton>Create post</MyButton>
+            <PostList posts={posts} title='post list JS'/>
+            <PostList posts={posts2} title='post list Python'/>
 
         </div>
     );
