@@ -1,6 +1,7 @@
 import './App.css';
 import {useState} from "react";
 import Counter from "./components/Counter";
+import ClassCounter from "./components/ClassCounter";
 
 function App() {
     const [value, setValue]= useState(1)
@@ -8,6 +9,8 @@ function App() {
     return (
         <div>
 <Counter />
+
+            <ClassCounter />
         </div>
     );
 }
