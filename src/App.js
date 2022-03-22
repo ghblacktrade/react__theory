@@ -6,6 +6,7 @@ import './Styles/App.css'
 import PostList from "./components/PostList";
 import MyButton from "./UI/button/MyButton";
 import MyInput from "./UI/imput/MyInput";
+import PostForm from "./components/PostForm";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -20,22 +21,28 @@ function App() {
             {id: 3, title: 'Python 3', body: 'Description'}
         ]
     )
-    const [title, setTitle] = useState('')
     const addNewPost = (e) => {
         e.preventDefault()
+        const newPost = {
+            id: Date.now(),
+            title,
+            body,
+        }
 
+        setPosts([...posts, newPost])
+        setTitle('')
+        setBody('')
     }
+
+
+    const [body, setBody] = useState('')
+
+
     return (
         <div>
             <Counter/>
             <ClassCounter/>
-            <MyInput
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                type='text'
-                placeholder='name post' />
-            <MyInput type='text' placeholder='name post' />
-            <MyButton onClick={addNewPost}>Create post</MyButton>
+<PostForm/>
             <PostList posts={posts} title='post list JS'/>
             <PostList posts={posts2} title='post list Python'/>
 
