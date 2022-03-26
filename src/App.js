@@ -1,12 +1,13 @@
 import './App.css';
-import {useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import Counter from "./components/Counter";
 import ClassCounter from "./components/ClassCounter";
 import './Styles/App.css'
 import PostList from "./components/PostList";
+import PostFilter from "./components/PostFilter";
 import PostForm from "./components/PostForm";
-import MySelect from "./UI/selector/MySelect";
-import MyInput from "./UI/imput/MyInput";
+import MyModal from "./UI/MyModal/MyModal";
+import MyButton from "./UI/button/MyButton";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -15,61 +16,47 @@ function App() {
             {id: 3, title: 'JavaScript', body: 'Description'}
         ]
     )
-
-    const createPost = (newPost) => {
-        setPosts([...posts, newPost])
-    }
-
+    const [modal, setModal] = useState('')
     const removePost = (post) => {
         setPosts(posts.filter(p => p.id !== post.id))
 
+
     }
-    const [selectedSort, setSelectedSort] = useState('')
-
-
-    const [searchQuery, setSearchQuery] = useState('')
-
-    const sortPosts = (sort) => {
-        setSelectedSort(sort)
-    }
+    const [filter, setFilter] = useState({sort: '', query: ''})
 
 
     const sortedPosts = useMemo(() => {
-        if (selectedSort) {
-            return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+        if (filter.sort) {
+            return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
         }
         return posts
-    }, [selectedSort, posts])
+    }, [filter.sort, posts])
 
     const sortedAndSearchedPosts = useMemo(() => {
-        return sortedPosts.filter(post => post.title.toLowerCase().includes(searchQuery))
-    }, [searchQuery, sortedPosts])
+        return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query))
+    }, [filter.query, sortedPosts])
 
+    const createPost = (newPost) => {
+        setPosts([...posts, newPost])
+        setModal(false)
+    }
     return (
         <div>
             <Counter/>
             <ClassCounter/>
-            <MyInput
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder='search...'
-            />
-            <PostForm create={createPost}/>
-            <MySelect
-                value={selectedSort}
-                onChange={sortPosts}
-                defaultValue='sort'
-                options={[
-                    {value: 'title', name: 'name'},
-                    {value: 'body', name: 'description'}
-                ]}
-            />
-            {sortedAndSearchedPosts.length
-                ? <PostList remove={removePost} posts={sortedAndSearchedPosts} title='post list JS'/>
-                : <h1 style={{textAlign: 'center'}}>posts not found</h1>
-            }
-            {/*<PostList posts={posts2} title='post list Python'/>*/}
-
+            <MyButton style={{marginTop: '5px'}} onClick={() => setModal(true)}>
+                Create User
+            </MyButton>
+            <MyModal visible={modal} setVisible={setModal}>
+                <PostForm create={createPost}/>
+            </MyModal>
+            <PostFilter
+                filter={filter}
+                setFilter={setFilter}/>
+            <PostList
+                remove={removePost}
+                posts={sortedAndSearchedPosts}
+                title='post list JS'/>
         </div>
     );
 }
