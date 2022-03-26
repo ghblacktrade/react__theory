@@ -5,6 +5,7 @@ import ClassCounter from "./components/ClassCounter";
 import './Styles/App.css'
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
+import MySelect from "./UI/selector/MySelect";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -27,13 +28,27 @@ function App() {
         setPosts(posts.filter(p => p.id !== post.id))
 
     }
+    const [selectedSort, setSelectedSort] = useState('')
+    const sortPosts = (sort) => {
+        setSelectedSort(sort)
+        setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
 
+    }
     return (
         <div>
             <Counter/>
             <ClassCounter/>
             <PostForm create={createPost}/>
-            {posts.length !== 0
+                <MySelect
+                    value={selectedSort}
+                    onChange={sortPosts}
+                    defaultValue='sort'
+                    options={[
+                        {value: 'title', name: 'name'},
+                        {value: 'body', name: 'description'}
+                    ]}
+                />
+            {posts.length
                 ? <PostList remove={removePost} posts={posts} title='post list JS'/>
                 : <h1 style={{textAlign: 'center'}}>posts not found</h1>
             }
