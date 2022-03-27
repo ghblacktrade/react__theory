@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import Counter from "./components/Counter";
 import ClassCounter from "./components/ClassCounter";
 import './Styles/App.css'
@@ -9,6 +9,7 @@ import PostForm from "./components/PostForm";
 import MyModal from "./UI/MyModal/MyModal";
 import MyButton from "./UI/button/MyButton";
 import {usePosts} from "./hooks/usePosts";
+import axios from "axios";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -17,18 +18,31 @@ function App() {
             {id: 3, title: 'JavaScript', body: 'Description'}
         ]
     )
+
+    async function fetchPosts() {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+        setPosts(response.data)
+    }
+
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
+
     const [modal, setModal] = useState('')
     const removePost = (post) => {
         setPosts(posts.filter(p => p.id !== post.id))
     }
     const [filter, setFilter] = useState({sort: '', query: ''})
-    const sortedAndSearchedPosts =usePosts(posts, filter.sort, filter.query)
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
         setModal(false)
     }
+
     return (
         <div>
+            <button onClick={fetchPosts}>GET</button>
             <Counter/>
             <ClassCounter/>
             <MyButton style={{marginTop: '5px'}} onClick={() => setModal(true)}>
