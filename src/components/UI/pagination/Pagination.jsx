@@ -1,6 +1,6 @@
 import React from "react";
 import MyButton from "../button/MyButton";
-import {getPagesArray} from "../../utils/ pages";
+import {getPagesArray} from "../../../utils/ pages";
 
 
 const Pagination = ({totalPages, page, changePage}) => {

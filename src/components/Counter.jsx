@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import MyButton from "../UI/button/MyButton";
+import MyButton from "./UI/button/MyButton";
 
 
 const Counter = function () {
